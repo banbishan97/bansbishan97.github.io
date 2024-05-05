@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #content {
+        width: 590px;
+        height: 470px;
+        position: relative;
+        transition: all 1s ease;
+      }
+      .img {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        /* transition: all 1s ease-in-out; */
+        box-shadow: 0 0 15px #ccc;
+        transition: opacity 300ms ease-in-out 0s;
+
+      }
+      .btnLeft {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 0;
+        background-color: rgba(0, 0, 0, 0.15);
+        transition: background-color 0.2s ease;
+        border: none;
+        outline: none;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+      }
+      .btnRight {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 0;
+        background-color: rgba(0, 0, 0, 0.15);
+        transition: background-color 0.2s ease;
+        border: none;
+        outline: none;
+        border-top-left-radius: 18px;
+        border-bottom-left-radius: 18px;
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+      }
+      ul {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        list-style: none;
+        display: flex;
+      }
+      li {
+        width: 9px;
+        height: 9px;
+        background: #999;
+        border-radius: 50%;
+        margin: 4px;
+        /* opacity: 0; */
+      }
+      .highLi {
+        background: #fff;
+        width: 11px;
+        height: 11px;
+        /* opacity: 1; */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content"></div>
+
+    <script>
+      let imageList = [
+        "./IMG_2365.JPG",
+        "./bg2.jpg",
+        "./1.jpg",
+        "./2.jpg",
+        "./3.jpg",
+      ];
+      let imageIndex = 0;
+      let contentDom = document.querySelector("#content");
+      let btnLeft = document.createElement("button");
+      let btnRight = document.createElement("button");
+      let ulDom = document.createElement("ul");
+
+      initImage();
+      initBtn();
+      initUl();
+      setInterval(() => {
+        if (imageIndex === imageList.length - 1) imageIndex = 0;
+        else imageIndex = imageIndex + 1;
+        changeImage();
+      }, 3000);
+
+      function initImage() {
+        let image = new Image();
+        image.src = imageList[imageIndex];
+        image.className = "img";
+        contentDom.appendChild(image);
+      }
+
+      function initBtn() {
+        btnLeft.textContent = "<";
+        btnLeft.className = "btnLeft";
+        btnRight.textContent = ">";
+        btnRight.className = "btnRight";
+        contentDom.appendChild(btnLeft);
+        contentDom.appendChild(btnRight);
+      }
+
+      function initUl() {
+        imageList.forEach((item) => {
+          let li = document.createElement("li");
+          ulDom.appendChild(li);
+        });
+        ulDom.childNodes[0].className = "highLi";
+        contentDom.appendChild(ulDom);
+      }
+
+      function changeImage() {
+        let imgdom = contentDom.children;
+        imgdom[0].src = imageList[imageIndex];
+        ulDom.childNodes = Array.from(ulDom.childNodes).map((item) => {
+          item.className = "";
+          return item;
+        });
+        ulDom.childNodes[imageIndex].className = "highLi";
+      }
+
+     
+
+      btnLeft.addEventListener(
+        "click",
+        function () {
+          if (imageIndex === 0) imageIndex = imageList.length - 1;
+          else imageIndex = imageIndex - 1;
+          changeImage();
+        },
+        false
+      );
+      btnRight.addEventListener(
+        "click",
+        function () {
+          if (imageIndex === imageList.length - 1) imageIndex = 0;
+          else imageIndex = imageIndex + 1;
+          changeImage();
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
